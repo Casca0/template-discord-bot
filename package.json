@@ -1,0 +1,26 @@
+{
+	"name": "template-discord-bot",
+	"version": "1.0.0",
+	"description": "Template for creating Discord bots",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "node ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Casca0/template-discord-bot.git"
+	},
+	"author": "Casca0",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Casca0/template-discord-bot/issues"
+	},
+	"homepage": "https://github.com/Casca0/template-discord-bot#readme",
+	"dependencies": {
+		"discord.js": "^14.11.0"
+	},
+	"devDependencies": {
+		"dotenv": "^16.0.3",
+		"eslint": "^8.40.0"
+	}
+}
