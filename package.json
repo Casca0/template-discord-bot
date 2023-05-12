@@ -4,6 +4,8 @@
 	"description": "Template for creating Discord bots",
 	"main": "src/index.js",
 	"scripts": {
+		"deleteCommands": "node src/utils/deleteCommands.js",
+		"prestart": "node src/utils/deployCommands.js",
 		"start": "node ."
 	},
 	"repository": {
