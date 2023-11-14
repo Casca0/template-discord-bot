@@ -1,12 +1,12 @@
 // This event triggers on successful client connection
 
-const { Events } = require('discord.js');
+import { Events } from 'discord.js';
 
-module.exports = {
-	name: Events.ClientReady,
-	once: true,
-	async execute(client) {
-		console.log(`Logged in as ${client.user.tag}!`);
-		return;
-	},
-};
+export const name = Events.ClientReady;
+
+export const runsOnce = true;
+
+export async function execute(client) {
+	console.log(`🤖 ${client.user.tag}`);
+	return;
+}

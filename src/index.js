@@ -1,19 +1,20 @@
-require('dotenv/config');
-const { readdirSync } = require('node:fs');
-const { join } = require('node:path');
+import { config } from 'dotenv';
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'url';
 
-const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
+import { Client, GatewayIntentBits, Collection } from 'discord.js';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+
+config();
 
 const discordToken = process.env.DISCORD_TOKEN;
 
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent,
 	],
-	partials: Partials.Channel,
 });
 
 client.commands = new Collection();
@@ -22,23 +23,16 @@ client.commands = new Collection();
 
 const commandsPath = join(__dirname, 'commands');
 
-const commandsFolders = readdirSync(commandsPath);
+const commandFiles = readdirSync(commandsPath)
+	.filter((file) => file.endsWith('.js'));
 
-for (const folder of commandsFolders) {
-	const commandFiles = readdirSync(`${commandsPath}/${folder}`)
-		.filter((file) => file.endsWith('.js'));
-	for (const file of commandFiles) {
-		const command = require(`${commandsPath}/${folder}/${file}`);
-
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
-		}
-		else {
-			console.log(
-				`[ERRO] O commando em ${folder} está sem as propriedades requeridas!`,
-			);
-		}
-	}
+for (const file of commandFiles) {
+  const command = await import(`./commands/${file}`);
+  if ('data' in command && 'execute' in command) {
+    client.commands.set(command.data.name, command);
+  } else {
+    console.log(`[WARNING] The command ${file} is missing a required "data" or "execute" property.`);
+  }
 }
 
 // Event handler
@@ -49,10 +43,9 @@ const eventFiles = readdirSync(eventsPath)
 	.filter((file) => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-	const filePath = join(eventsPath, file);
-	const event = require(filePath);
+	const event = await import(`./events/${file}`);
 
-	if (event.once) {
+	if (event.runsOnce) {
 		client.once(event.name, (...args) => event.execute(...args));
 	}
 	else {
