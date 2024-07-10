@@ -3,10 +3,13 @@
 	"version": "1.0.0",
 	"description": "Template for creating Discord bots",
 	"type": "module",
-	"main": "src/index.js",
+	"private": "true",
 	"scripts": {
-		"prestart": "node src/deployCommands.js",
-		"start": "node ."
+		"prestart": "tsc",
+		"start": "node dist/index.js"
+	},
+	"imports": {
+		"#bot/*": "./dist/*.js"
 	},
 	"repository": {
 		"type": "git",
@@ -19,10 +22,15 @@
 	},
 	"homepage": "https://github.com/Casca0/template-discord-bot#readme",
 	"dependencies": {
-		"discord.js": "^14.14.1"
+		"commandkit": "^0.1.10",
+		"discord.js": "^14.15.3"
 	},
 	"devDependencies": {
-		"dotenv": "^16.3.1",
-		"eslint": "^8.53.0"
+		"@typescript-eslint/eslint-plugin": "^7.16.0",
+		"@typescript-eslint/parser": "^7.16.0",
+		"dotenv": "^16.4.5",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"typescript": "^5.5.3"
 	}
 }

@@ -7,5 +7,5 @@ To properly test this template, you need to create a **`.env`** file to store yo
 To run the bot just type this in your terminal, once you created the `.env` file with your token.
 
 ``` bash
-$ npm start
+$ pnpm start
 ```
